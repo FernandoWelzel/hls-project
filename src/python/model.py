@@ -1,4 +1,6 @@
-# Base model
+
+from Conv2D import *
+
 
 # model = tf.keras.Sequential([
 #     tfLayers.Conv2D(64, (3, 3), activation='relu', input_shape=(24, 24, 3), padding='same', name='conv1'),
@@ -14,3 +16,5 @@
 
 #     tfLayers.Dense(10, name='local3')
 # ])
+
+newModel = Conv2D(1, 1, 1)
