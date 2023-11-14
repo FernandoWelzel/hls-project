@@ -1,20 +1,15 @@
+import numpy as np
 
-from Conv2D import *
+from Conv2D import Conv2D
 
+new_model = Conv2D(kernel_size=(3, 3), output_shape=(5, 5, 1), input_shape=(5, 5, 1))
 
-# model = tf.keras.Sequential([
-#     tfLayers.Conv2D(64, (3, 3), activation='relu', input_shape=(24, 24, 3), padding='same', name='conv1'),
-#     tfLayers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same'),
+test_matrix = np.array((
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5]
+))
 
-#     tfLayers.Conv2D(32, (3, 3), activation='relu', input_shape=(12, 12, 64), padding='same', name='conv2'),
-#     tfLayers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same'),
-
-#     tfLayers.Conv2D(20, (3, 3), activation='relu', input_shape=(6, 6, 32), padding='same', name='conv3'),
-#     tfLayers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same'),
-
-#     tfLayers.Reshape((-1, 180)),
-
-#     tfLayers.Dense(10, name='local3')
-# ])
-
-newModel = Conv2D(1, 1, 1)
+print(new_model.forward(test_matrix))
