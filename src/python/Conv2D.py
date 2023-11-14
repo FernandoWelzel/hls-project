@@ -67,6 +67,9 @@ class Conv2D:
                             if(not out_of_bounds):
                                 sum += feature_map[c, x_index, y_index]
                     
+                    # Applies ReLU
+                    if(sum < 0): sum = 0
+            
                     output[x, y, c] = sum
 
         return output
