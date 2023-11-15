@@ -1,12 +1,10 @@
 import numpy as np
 
 # User defined
-from Conv2D import Conv2D
-from Dense import Dense
-from MaxPooling2D import MaxPooling2D
+import simpleFlow as sf
 
 # Convolutional layer
-conv_model = Conv2D(kernel_size=(3, 3), output_shape=(5, 5, 1), input_shape=(5, 5, 1))
+conv_model = sf.Conv2D(kernel_size=(3, 3), output_shape=(5, 5, 1), input_shape=(5, 5, 1))
 
 test_matrix_conv = np.array((
     [1, 2, 3, 4, 5],
@@ -17,14 +15,14 @@ test_matrix_conv = np.array((
 ))
 
 # Dense layer
-dense_model = Dense(output_size=5, input_size=5)
+dense_model = sf.Dense(output_size=5, input_size=5)
 
 test_matrix_dense = np.array((
     [1, 2, 3, 4, 5]
 ))
 
 # MaxPooling layer
-pool_model = MaxPooling2D(input_shape=(5, 5, 1), strides=(1, 1), pool_size=(3, 3))
+pool_model = sf.MaxPooling2D(input_shape=(5, 5, 1), strides=(1, 1), pool_size=(3, 3))
 
 # Tests 1
 print(conv_model.forward(test_matrix_conv))
@@ -46,7 +44,7 @@ conv_model.bias = np.array((
 print(conv_model.forward(test_matrix_conv))
 
 # 3 channel convolutional model
-conv_3C_model = Conv2D(kernel_size=(3, 3), output_shape=(5, 5, 2), input_shape=(5, 5, 3))
+conv_3C_model = sf.Conv2D(kernel_size=(3, 3), output_shape=(5, 5, 2), input_shape=(5, 5, 3))
 
 test_matrix_conv_3C = np.array((
    [[1, 2, 3, 4, 5],
