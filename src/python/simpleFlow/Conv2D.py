@@ -9,13 +9,13 @@ class Conv2D:
         kernel_size: tuple
             (kX, kY)
         input_shape: tuple
-            (iX, iY, iC)
+            (iC, iX, iY)
         output_shape: tuple
-            (oX, oY, oC)
+            (oC, oX, oY)
     
     Internal:
-        weights: np.array(kX, kY, iC, oC)
-        bias: np.array(kX, kY, iC, oC)
+        weights: np.array(oC, iC, kX, kY)
+        bias: np.array(oC)
     '''
     def __init__(self, kernel_size : tuple, input_shape: tuple, output_shape : tuple):
         # Base parameters
@@ -24,8 +24,8 @@ class Conv2D:
         self.input_shape = input_shape
 
         # Internal matrices
-        self.weights = np.ones((kernel_size[0], kernel_size[1], input_shape[2], output_shape[2]), dtype=float)
-        self.bias = np.ones(output_shape[2], dtype=float)
+        self.weights = np.ones((output_shape[0], input_shape[0], kernel_size[0], kernel_size[1]), dtype=float)
+        self.bias = np.ones(output_shape[0], dtype=float)
 
     # Calculates the convolutional output
     def forward(self, feature_map):
@@ -35,16 +35,16 @@ class Conv2D:
 
         # Resizing weights matrix if only one channel
         if(self.weights.ndim < 4):
-            self.weights = self.weights.reshape((self.kernel_size[0], self.kernel_size[1], self.input_shape[2], self.output_shape[2]))
+            self.weights = self.weights.reshape((self.output_shape[0], self.input_shape[0], self.kernel_size[0], self.kernel_size[1]))
 
         output = np.zeros(self.output_shape, dtype=float)
 
         # Output shapes
-        rows = self.output_shape[0]
-        columns = self.output_shape[1]
-        channels_out = self.output_shape[2]
+        rows = self.output_shape[1]
+        columns = self.output_shape[2]
+        channels_out = self.output_shape[0]
 
-        channels_in = self.input_shape[2]
+        channels_in = self.input_shape[0]
 
         kernelX = self.kernel_size[0]
         kernelY = self.kernel_size[1]
@@ -63,21 +63,21 @@ class Conv2D:
                         # Iterate though X of kernel
                         for m in range(kernelX):
                             x_index = x+m-1
-                            x_out_of_bound = (x_index < 0) or (x_index >= self.input_shape[0])
+                            x_out_of_bound = (x_index < 0) or (x_index >= self.input_shape[1])
 
                             # Iterate though Y of kernel
                             for n in range(kernelY):
                                 y_index = y+n-1
-                                y_out_of_bound = (y_index < 0) or (y_index >= self.input_shape[1])
+                                y_out_of_bound = (y_index < 0) or (y_index >= self.input_shape[2])
 
                                 out_of_bounds = x_out_of_bound or y_out_of_bound
                                 
                                 if(not out_of_bounds):
-                                    sum += self.weights[m, n, c_in, c_out]*feature_map[c_in, x_index, y_index]
+                                    sum += self.weights[c_out, c_in, n, m]*feature_map[c_in, x_index, y_index]
                     
                     # Applies ReLU
                     if(sum < 0): sum = 0
             
-                    output[x, y, c_out] = sum
+                    output[c_out, x, y] = sum
 
         return output

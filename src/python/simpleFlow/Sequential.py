@@ -17,6 +17,6 @@ class Sequential:
         temp = feature_map
 
         for layer in self.layers:
-            output = layer.forward(temp)
+            temp = layer.forward(temp)
 
-        return output
+        return temp

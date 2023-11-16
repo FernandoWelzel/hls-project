@@ -7,7 +7,7 @@ class MaxPooling2D:
     
     Args:
         input_shape: tuple
-            (ix, iy, ic)
+            (iC, ix, iy)
         strides: tuple
             (sx, sy)
         pool_size: tuple
@@ -31,41 +31,45 @@ class MaxPooling2D:
         output = np.zeros(self.output_shape, dtype=float)
 
         # Output shapes
-        rows = self.output_shape[0]
-        columns = self.output_shape[1]
-        channels = self.output_shape[2]
+        rows = self.output_shape[1]
+        columns = self.output_shape[2]
+        channels_out = self.output_shape[0]
+
+        channels_in = self.input_shape[0]
 
         kernelX = self.pool_size[0]
         kernelY = self.pool_size[1]
 
         # Compute each channel
-        for c in range(channels):
+        for c_out in range(channels_out):
             # Compute each row
             for x in range(rows):
                 # Compute each column
                 for y in range(columns):
-                    largest = 0 # Not true for all activations
-                    out_of_bounds = False
+                    # Initializing sum
+                    largest = 0
+                    
+                    # Iterating though input layers of the kernel
+                    for c_in in range(channels_in):
+                        # Iterate though X of kernel
+                        for m in range(kernelX):
+                            x_index = x+m-1
+                            x_out_of_bound = (x_index < 0) or (x_index >= self.input_shape[1])
 
-                    # Iterate though X of kernel
-                    for m in range(kernelX):
-                        x_index = x+m-1
-                        x_out_of_bound = (x_index < 0) or (x_index >= self.input_shape[0])
+                            # Iterate though Y of kernel
+                            for n in range(kernelY):
+                                y_index = y+n-1
+                                y_out_of_bound = (y_index < 0) or (y_index >= self.input_shape[2])
 
-                        # Iterate though Y of kernel
-                        for n in range(kernelY):
-                            y_index = y+n-1
-                            y_out_of_bound = (y_index < 0) or (y_index >= self.input_shape[1])
-
-                            out_of_bounds = x_out_of_bound or y_out_of_bound
-                            
-                            if(not out_of_bounds):
-                                current = feature_map[c, x_index, y_index] 
+                                out_of_bounds = x_out_of_bound or y_out_of_bound
                                 
-                                # Updates largest number if bigger
-                                if(current > largest):
-                                    largest = current
+                                if(not out_of_bounds):
+                                    current = feature_map[c_in, x_index, y_index] 
 
-                    output[x, y, c] = largest
-
+                                    # Updates largest number if bigger
+                                    if(current > largest):
+                                        largest = current
+                    
+                    output[c_out, x, y] = largest
+        
         return output

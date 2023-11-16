@@ -4,7 +4,7 @@ import numpy as np
 import simpleFlow as sf
 
 # Convolutional layer
-conv_model = sf.Conv2D(kernel_size=(3, 3), output_shape=(5, 5, 1), input_shape=(5, 5, 1))
+conv_model = sf.Conv2D(kernel_size=(3, 3), output_shape=(1, 5, 5), input_shape=(1, 5, 5))
 
 test_matrix_conv = np.array((
     [1, 2, 3, 4, 5],
@@ -22,7 +22,7 @@ test_matrix_dense = np.array((
 ))
 
 # MaxPooling layer
-pool_model = sf.MaxPooling2D(input_shape=(5, 5, 1), strides=(1, 1), pool_size=(3, 3))
+pool_model = sf.MaxPooling2D(input_shape=(1, 5, 5), strides=(1, 1), pool_size=(3, 3))
 
 # Tests 1
 print(conv_model.forward(test_matrix_conv))
@@ -44,7 +44,7 @@ conv_model.bias = np.array((
 print(conv_model.forward(test_matrix_conv))
 
 # 3 channel convolutional model
-conv_3C_model = sf.Conv2D(kernel_size=(3, 3), output_shape=(5, 5, 2), input_shape=(5, 5, 3))
+conv_3C_model = sf.Conv2D(kernel_size=(3, 3), output_shape=(2, 5, 5), input_shape=(3, 5, 5))
 
 test_matrix_conv_3C = np.array((
    [[1, 2, 3, 4, 5],
@@ -52,11 +52,13 @@ test_matrix_conv_3C = np.array((
     [1, 2, 3, 4, 5],
     [1, 2, 3, 4, 5],
     [1, 2, 3, 4, 5]],
+
    [[1, 2, 3, 4, 5],
     [1, 2, 3, 4, 5],
     [1, 2, 3, 4, 5],
     [1, 2, 3, 4, 5],
     [1, 2, 3, 4, 5]],
+
    [[1, 2, 3, 4, 5],
     [1, 2, 3, 4, 5],
     [1, 2, 3, 4, 5],
@@ -65,3 +67,12 @@ test_matrix_conv_3C = np.array((
 ))
 
 print(conv_3C_model.forward(test_matrix_conv_3C))
+
+# Creating network structure
+model = sf.Sequential([
+    # 1st Conv + Pool
+    sf.Conv2D(kernel_size=(3, 3), input_shape=(3, 5, 5), output_shape=(1, 5, 5)),
+    sf.MaxPooling2D(input_shape=(1, 5, 5), pool_size=(3, 3), strides=(2, 2))
+])
+
+print(model.forward(test_matrix_conv_3C))
