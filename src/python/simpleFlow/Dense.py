@@ -24,7 +24,7 @@ class Dense(Layer):
         self.input_size = input_size
 
         # Internal matrices
-        self.weights = np.ones([input_size, output_size], dtype=float)
+        self.weights = np.ones((input_size, output_size), dtype=float)
         self.bias = np.ones([output_size], dtype=float)
 
     # Calculates the output
@@ -38,7 +38,7 @@ class Dense(Layer):
             
             # Iterate though X of kernel
             for j in range(self.input_size):
-                sum += self.weights[j, i]*feature_map[j]
+                sum += self.weights[i, j]*feature_map[j]
             
             # Applies ReLU
             if(sum < 0): sum = 0
@@ -47,7 +47,6 @@ class Dense(Layer):
 
         return output
     
-
     def load_weights(self, weights, biases):
         self.weights = weights
         self.bias = biases

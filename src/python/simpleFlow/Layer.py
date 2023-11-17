@@ -13,6 +13,6 @@ class Layer:
         raise NotImplementedError()
     
     # Virtual method for loading weights and biases
-    def load_weights(self, weights):
+    def load_weights(self, weights, bias):
         raise NotImplementedError()
 
