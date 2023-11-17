@@ -23,4 +23,8 @@ class Sequential:
     
     # Loads the weights in the correct layer
     def load_weights(self, weights):
-        return True
+        # Iterates to all classes and load weights by the name of the class
+        for layer_weight in weights:
+            for layer in self.layers:
+                if layer.name == layer_weight.name:
+                    layer.load_weights(layer_weight)

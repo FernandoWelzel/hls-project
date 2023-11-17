@@ -1,6 +1,8 @@
 import numpy as np
 
-class Dense:
+from .Layer import Layer
+
+class Dense(Layer):
     ''' TensorFlow inspired densenly connected layer
     Description:
         Expects flatten input and assumes ReLU activation
@@ -13,7 +15,10 @@ class Dense:
         weights: np.array(input_size, output_size)
         bias: np.array(output_size)
     '''
-    def __init__(self, input_size: int, output_size : int):
+    def __init__(self, input_size: int, output_size : int, name : str):
+        # Initializing base class attributes
+        super().__init__(name)
+        
         # Base parameters
         self.output_size = output_size
         self.input_size = input_size

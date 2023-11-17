@@ -1,6 +1,8 @@
 import numpy as np
 
-class Conv2D:
+from .Layer import Layer
+
+class Conv2D(Layer):
     ''' TensorFlow inspired 2D convolutional layer
     Description:
         Assuming padding='same'
@@ -17,10 +19,13 @@ class Conv2D:
         weights: np.array(oC, iC, kX, kY)
         bias: np.array(oC)
     '''
-    def __init__(self, kernel_size : tuple, input_shape: tuple, output_shape : tuple):
+    def __init__(self, kernel_size : tuple, input_shape: tuple, output_shape : tuple, name : str):
         # Checking kernel size is odd
         for size in kernel_size:
             assert size%2 == 1
+        
+        # Initializing base class attributes
+        super().__init__(name)
         
         # Base parameters
         self.kernel_size = kernel_size

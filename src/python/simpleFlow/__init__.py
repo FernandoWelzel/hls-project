@@ -9,3 +9,4 @@ from .Dense import *
 from .MaxPooling2D import *
 from .Reshape import *
 from .Sequential import *
+from .Layer import *

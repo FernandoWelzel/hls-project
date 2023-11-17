@@ -1,6 +1,8 @@
 import numpy as np
 
-class MaxPooling2D:
+from .Layer import Layer
+
+class MaxPooling2D(Layer):
     ''' TensorFlow inspired max pooling layer
     Description:
         Expects 2D input, assumes padding='same', and infers output_shape
@@ -13,11 +15,14 @@ class MaxPooling2D:
         pool_size: tuple
             (px, py)
     '''
-    def __init__(self, input_shape: tuple, strides : tuple, pool_size : tuple):
+    def __init__(self, input_shape: tuple, strides : tuple, pool_size : tuple, name : str):
         # Checking pool_size size is odd
         for size in pool_size:
             assert size%2 == 1
-        
+
+        # Initializing base class attributes
+        super().__init__(name)
+
         # Base parameters
         self.input_shape = input_shape
         self.strides = strides
