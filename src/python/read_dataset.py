@@ -1,12 +1,11 @@
 # Imports
 import numpy as np
+import pickle
 
 import os
 import struct
-import numpy as np
 
-from sklearn.preprocessing import MinMaxScaler
-
+from normalize import *
 
 def read_cifar10_batch(file_path):
     with open(file_path, 'rb') as file:
@@ -24,18 +23,18 @@ def read_cifar10_batch(file_path):
         # Extract label and image data
         label = unpacked_data[0]
         image_data = np.array(unpacked_data[1:], dtype=np.uint8)
-        print("Total length of the read data -- ON FUNCTION: ", len(image_data))
+        # print("Total length of the read data -- ON FUNCTION: ", len(image_data))
         # Reshape the image data into a 3D array (32x32 image with three color channels)
         image_array = image_data.reshape((3, 32, 32)).transpose(1, 2, 0)
     
     # Return as numpy array
     image = np.array(image_array)
 
-    # Normalizing image
-    scaler = MinMaxScaler()
+    # Transpose image to the correct size
+    image = np.transpose(image, (2, 0, 1))
 
     # Fit and transform the data
-    image = scaler.fit_transform(image)
+    image = normalize(image)
 
     return label, image
 

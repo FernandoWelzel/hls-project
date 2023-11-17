@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 # User defined
 import simpleFlow as sf
@@ -33,10 +34,19 @@ weight, bias = load_all()
 model.load_weights(weight, bias)
 
 # Loading image
-file_path = "../../../cifar-10-python/cifar-10-batches-py/data_batch_1"
+file_path = "../../data/cifar-10-python/cifar-10-batches-py/data_batch_2"
 label, image = read_cifar10_batch(file_path)
 
-print(image.shape())
+image = np.transpose(image, (1, 2, 0))
+
+data_batch = load_cifar10_batch(file_path)
+
+image = np.array(data_batch[b'data'])
+
+print(image[0].shape)
+
+# plt.imshow()
+# plt.show()
 
 # Inference using images
 # model.forward(image)
