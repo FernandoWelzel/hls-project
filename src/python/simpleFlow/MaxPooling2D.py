@@ -14,6 +14,10 @@ class MaxPooling2D:
             (px, py)
     '''
     def __init__(self, input_shape: tuple, strides : tuple, pool_size : tuple):
+        # Checking pool_size size is odd
+        for size in pool_size:
+            assert size%2 == 1
+        
         # Base parameters
         self.input_shape = input_shape
         self.strides = strides
@@ -37,8 +41,8 @@ class MaxPooling2D:
 
         channels_in = self.input_shape[0]
 
-        kernelX = self.pool_size[0]
-        kernelY = self.pool_size[1]
+        poolX = self.pool_size[0]
+        poolY = self.pool_size[1]
 
         # Compute each channel
         for c_out in range(channels_out):
@@ -49,16 +53,16 @@ class MaxPooling2D:
                     # Initializing sum
                     largest = 0
                     
-                    # Iterating though input layers of the kernel
+                    # Iterating though input layers of the pool
                     for c_in in range(channels_in):
-                        # Iterate though X of kernel
-                        for m in range(kernelX):
-                            x_index = x+m-1
+                        # Iterate though X of pool
+                        for m in range(poolX):
+                            x_index = x+m-(poolX-1)//2
                             x_out_of_bound = (x_index < 0) or (x_index >= self.input_shape[1])
 
-                            # Iterate though Y of kernel
-                            for n in range(kernelY):
-                                y_index = y+n-1
+                            # Iterate though Y of pool
+                            for n in range(poolY):
+                                y_index = y+n-(poolY-1)//2
                                 y_out_of_bound = (y_index < 0) or (y_index >= self.input_shape[2])
 
                                 out_of_bounds = x_out_of_bound or y_out_of_bound

@@ -18,6 +18,10 @@ class Conv2D:
         bias: np.array(oC)
     '''
     def __init__(self, kernel_size : tuple, input_shape: tuple, output_shape : tuple):
+        # Checking kernel size is odd
+        for size in kernel_size:
+            assert size%2 == 1
+        
         # Base parameters
         self.kernel_size = kernel_size
         self.output_shape = output_shape
@@ -62,12 +66,12 @@ class Conv2D:
                     for c_in in range(channels_in):
                         # Iterate though X of kernel
                         for m in range(kernelX):
-                            x_index = x+m-1
+                            x_index = x+m-(kernelX-1)//2
                             x_out_of_bound = (x_index < 0) or (x_index >= self.input_shape[1])
 
                             # Iterate though Y of kernel
                             for n in range(kernelY):
-                                y_index = y+n-1
+                                y_index = y+n-(kernelY-1)//2
                                 y_out_of_bound = (y_index < 0) or (y_index >= self.input_shape[2])
 
                                 out_of_bounds = x_out_of_bound or y_out_of_bound
