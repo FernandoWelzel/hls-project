@@ -4,6 +4,12 @@ import pickle
 
 import os
 import struct
+<<<<<<< HEAD
+=======
+import numpy as np
+
+# from sklearn.preprocessing import MinMaxScaler
+>>>>>>> 8c3dcd372b123f1fd77ab83670a146510d427d7a
 
 from normalize import *
 
@@ -30,18 +36,28 @@ def read_cifar10_batch(file_path):
     # Return as numpy array
     image = np.array(image_array)
 
-    # Transpose image to the correct size
-    image = np.transpose(image, (2, 0, 1))
+    # Normalizing image
+    # scaler = MinMaxScaler()
 
     # Fit and transform the data
-    image = normalize(image)
+    # image = scaler.fit_transform(image)
+    start_row = 3
+    end_row =  27
+    start_col = 3
+    end_col =  27
 
-    return label, image
+
+    sub_image = image[start_row:end_row, start_col:end_col]
+    return label, sub_image
 
 # Import any binary file of the CIFAR10 dataset
-# File = "../../../cifar-10-python/cifar-10-batches-py/data_batch_1"
-# label, image_array = read_cifar10_batch(File)
-# print("Length of the read image: ", image_array.shape())
-# print("First PIXEL [R G B]: ", image_array[0, 0, :])
-# print("Last PIXEL  [R G B]: ", image_array[31, 31, :])
+File = "../../../cifar-10-python/cifar-10-batches-py/data_batch_1"
+label, sub_image = read_cifar10_batch(File)
+print("Length of the read image: ", len(sub_image))
+print("First PIXEL [R G B]: ", sub_image[0, 0, :])
+print("Last PIXEL  [R G B]: ", sub_image[23, 23, :])
+print("Max: ", np.max(sub_image))
+print("Min: ", np.min(sub_image))
+
+
 
