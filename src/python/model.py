@@ -23,3 +23,6 @@ model = sf.Sequential([
     # Final fully connected
     sf.Dense(input_size=180, output_size=10)
 ])
+
+# Loading weights from weights
+model.load_weights()
