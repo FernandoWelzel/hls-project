@@ -2,6 +2,7 @@ import numpy as np
 
 # User defined
 import simpleFlow as sf
+from load_coeff import *
 
 # Creating network structure
 model = sf.Sequential([
@@ -24,5 +25,8 @@ model = sf.Sequential([
     sf.Dense(input_size=180, output_size=10, name="local3")
 ])
 
+# Storing weights and biases as numpy array
+weight, bias = load_all()
+
 # Loading weights from weights
-model.load_weights()
+# model.load_weights(weight, bias)

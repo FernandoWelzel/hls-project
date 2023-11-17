@@ -22,9 +22,16 @@ class Sequential:
         return temp
     
     # Loads the weights in the correct layer
-    def load_weights(self, weights):
+    def load_weights(self, weights, biases):
+        # Asserting that both lists share the same layers
+        assert weights.keys() == biases.keys()
+
+        layers_to_fill = weights.keys()
+
         # Iterates to all classes and load weights by the name of the class
-        for layer_weight in weights:
-            for layer in self.layers:
-                if layer.name == layer_weight.name:
-                    layer.load_weights(layer_weight)
+        for external_layer in layers_to_fill:
+            # Searches layer names in the sequential model
+            for internal_layer in self.layers:
+                # Loads weights only in case of a match
+                if external_layer == internal_layer.name:
+                    internal_layer.load_weights(weights[external_layer], biases[external_layer])

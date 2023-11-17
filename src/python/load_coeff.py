@@ -6,7 +6,7 @@ import string
 # Defining path to weights file
 weightsPath = "../../data/3x3/"
 
-def load_weight(argument: string, coefficient:dict, verbose:bool) -> dict:
+def load_weight(argument: string, coefficient:dict, verbose:bool = False) -> dict:
     # argument: name of the file containing data
     # coefficient: dictionary of coefficients to be imported
     # verbose: argument to show prints
@@ -30,40 +30,51 @@ def load_weight(argument: string, coefficient:dict, verbose:bool) -> dict:
     if(replace_bias): new_argument = argument.replace("_biases.txt", "")
     else: new_argument = argument.replace("_weights.txt", "")
 
-    print("After string modification", new_argument)
+    if(verbose): print("After string modification", new_argument)
     # TODO: Get correct argument
     coefficient.update({new_argument : data_update})
     if(verbose): print("End of Function")
     return coefficient
 
+def load_all():
+    # Dictionaries Definition
+    Weights = {
+        "conv1": [],
+        "conv2": [],
+        "conv3": [],
+        "local3": [],
+    }
 
-# Dictionaries Definition
-Weights = {
-    "conv1": [],
-    "conv2": [],
-    "conv3": [],
-    "local3": [],
-}
+    Biases = {
+        "conv1": [],
+        "conv2": [],
+        "conv3": [],
+        "local3": [],  
+    }
 
-Biases = {
-    "conv1": [],
-    "conv2": [],
-    "conv3": [],
-    "local3": [],  
-}
+    # Loading for each file
+    load_weight(argument="conv1_biases.txt", coefficient=Biases)
+    load_weight(argument="conv1_weights.txt", coefficient=Weights)
+    load_weight(argument="conv2_biases.txt", coefficient=Biases)
+    load_weight(argument="conv2_weights.txt", coefficient=Weights)
+    load_weight(argument="conv3_biases.txt", coefficient=Biases)
+    load_weight(argument="conv3_weights.txt", coefficient=Weights)
+    load_weight(argument="local3_biases.txt", coefficient=Biases)
+    load_weight(argument="local3_weights.txt", coefficient=Weights)
 
-tests = True
-if(tests):
-    load_weight(argument="conv1_biases.txt", coefficient=Biases, verbose=True)
-    load_weight(argument="conv1_weights.txt", coefficient=Weights, verbose=True)
-    load_weight(argument="conv2_biases.txt", coefficient=Biases, verbose=True)
-    load_weight(argument="conv2_weights.txt", coefficient=Weights, verbose=True)
-    load_weight(argument="conv3_biases.txt", coefficient=Biases, verbose=True)
-    load_weight(argument="conv3_weights.txt", coefficient=Weights, verbose=True)
-    load_weight(argument="local3_biases.txt", coefficient=Biases, verbose=True)
-    load_weight(argument="local3_weights.txt", coefficient=Weights, verbose=True)
-
-# print(Biases)
-if (tests): print(Biases)
-print("======== End of Execution ========")
+    # Converting to correct sized np.arrays
+    for name in Weights.keys():
+        # Create correct sized numpy array
+        if name in ["conv1", "conv2", "conv3"]:
+            weight_transposed = np.transpose(Weights[name], (4, 3, 1, 2, 0)).squeeze()
+        else:
+            weight_transposed = np.transpose(Weights[name], (2, 1, 0)).squeeze()
+        
+        bias_transposed = np.array(Biases[name])
+        
+        Weights.update({name: weight_transposed})     
+        Biases.update({name: bias_transposed})
+    
+    # Reshaping np.arrays for correct size
+    return Weights, Biases
 

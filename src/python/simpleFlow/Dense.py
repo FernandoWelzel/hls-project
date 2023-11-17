@@ -46,3 +46,8 @@ class Dense(Layer):
             output[i] = sum
 
         return output
+    
+
+    def load_weights(self, weights, biases):
+        self.weights = weights
+        self.bias = biases

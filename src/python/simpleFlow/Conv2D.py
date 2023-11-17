@@ -90,3 +90,7 @@ class Conv2D(Layer):
                     output[c_out, x, y] = sum
 
         return output
+    
+    def load_weights(self, weights, biases):
+        self.weights = weights
+        self.bias = biases
