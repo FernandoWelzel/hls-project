@@ -3,6 +3,7 @@ import numpy as np
 # User defined
 import simpleFlow as sf
 from load_coeff import *
+from read_dataset import *
 
 # Creating network structure
 model = sf.Sequential([
@@ -32,7 +33,10 @@ weight, bias = load_all()
 model.load_weights(weight, bias)
 
 # Loading image
-image = np.random.random((3, 24, 24))
+file_path = "../../../cifar-10-python/cifar-10-batches-py/data_batch_1"
+label, image = read_cifar10_batch(file_path)
+
+print(image.shape())
 
 # Inference using images
-model.forward(image)
+# model.forward(image)

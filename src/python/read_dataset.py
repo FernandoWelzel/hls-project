@@ -5,6 +5,9 @@ import os
 import struct
 import numpy as np
 
+from sklearn.preprocessing import MinMaxScaler
+
+
 def read_cifar10_batch(file_path):
     with open(file_path, 'rb') as file:
         # Use struct to unpack the binary data
@@ -24,13 +27,22 @@ def read_cifar10_batch(file_path):
         print("Total length of the read data -- ON FUNCTION: ", len(image_data))
         # Reshape the image data into a 3D array (32x32 image with three color channels)
         image_array = image_data.reshape((3, 32, 32)).transpose(1, 2, 0)
+    
+    # Return as numpy array
+    image = np.array(image_array)
 
-    return label, image_array
+    # Normalizing image
+    scaler = MinMaxScaler()
+
+    # Fit and transform the data
+    image = scaler.fit_transform(image)
+
+    return label, image
 
 # Import any binary file of the CIFAR10 dataset
-File = "../../../cifar-10-python/cifar-10-batches-py/data_batch_1"
-label, image_array = read_cifar10_batch(File)
+# File = "../../../cifar-10-python/cifar-10-batches-py/data_batch_1"
+# label, image_array = read_cifar10_batch(File)
 # print("Length of the read image: ", image_array.shape())
-print("First PIXEL [R G B]: ", image_array[0, 0, :])
-print("Last PIXEL  [R G B]: ", image_array[31, 31, :])
+# print("First PIXEL [R G B]: ", image_array[0, 0, :])
+# print("Last PIXEL  [R G B]: ", image_array[31, 31, :])
 
