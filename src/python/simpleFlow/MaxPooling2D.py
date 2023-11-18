@@ -19,6 +19,7 @@ class MaxPooling2D(Layer):
         # Checking pool_size size is odd
         for size in pool_size:
             assert size%2 == 1
+        
 
         # Initializing base class attributes
         super().__init__(name)
@@ -29,7 +30,7 @@ class MaxPooling2D(Layer):
         self.pool_size = pool_size
 
         # Infered variables
-        self.output_shape = input_shape
+        self.output_shape = (input_shape[0], input_shape[1]//strides[0], input_shape[2]//strides[1])
 
     # Calculates the convolutional output
     def forward(self, feature_map):
@@ -62,12 +63,12 @@ class MaxPooling2D(Layer):
                     for c_in in range(channels_in):
                         # Iterate though X of pool
                         for m in range(poolX):
-                            x_index = x+m-(poolX-1)//2
+                            x_index = x*self.strides[0]+m-(poolX-1)//2
                             x_out_of_bound = (x_index < 0) or (x_index >= self.input_shape[1])
 
                             # Iterate though Y of pool
                             for n in range(poolY):
-                                y_index = y+n-(poolY-1)//2
+                                y_index = y*self.strides[1]+n-(poolY-1)//2
                                 y_out_of_bound = (y_index < 0) or (y_index >= self.input_shape[2])
 
                                 out_of_bounds = x_out_of_bound or y_out_of_bound
