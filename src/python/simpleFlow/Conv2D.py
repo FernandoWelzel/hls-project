@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 from .Layer import Layer
 
@@ -38,14 +39,6 @@ class Conv2D(Layer):
 
     # Calculates the convolutional output
     def forward(self, feature_map):
-        # If input is 2 dimentional, transforms into 3 dimensions
-        if(feature_map.ndim == 2):
-            feature_map = feature_map.reshape((1, feature_map.shape[0], feature_map.shape[1]))
-
-        # Resizing weights matrix if only one channel
-        if(self.weights.ndim < 4):
-            self.weights = self.weights.reshape((self.output_shape[0], self.input_shape[0], self.kernel_size[0], self.kernel_size[1]))
-
         output = np.zeros(self.output_shape, dtype=float)
 
         # Output shapes
@@ -82,7 +75,10 @@ class Conv2D(Layer):
                                 out_of_bounds = x_out_of_bound or y_out_of_bound
                                 
                                 if(not out_of_bounds):
-                                    sum += self.weights[c_out, c_in, n, m]*feature_map[c_in, x_index, y_index]
+                                    weight = self.weights[c_out, c_in, m, n]
+                                    pixel = feature_map[c_in, x_index, y_index]
+
+                                    sum += weight*pixel
                     
                     # Applies ReLU
                     if(sum < 0): sum = 0

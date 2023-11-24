@@ -38,10 +38,7 @@ class Dense(Layer):
             
             # Iterate though X of kernel
             for j in range(self.input_size):
-                sum += self.weights[i, j]*feature_map[j]
-            
-            # Applies ReLU
-            if(sum < 0): sum = 0
+                sum += self.weights[j, i]*feature_map[j]
             
             output[i] = sum
 

@@ -59,26 +59,24 @@ class MaxPooling2D(Layer):
                     # Initializing sum
                     largest = 0
                     
-                    # Iterating though input layers of the pool
-                    for c_in in range(channels_in):
-                        # Iterate though X of pool
-                        for m in range(poolX):
-                            x_index = x*self.strides[0]+m-(poolX-1)//2
-                            x_out_of_bound = (x_index < 0) or (x_index >= self.input_shape[1])
+                    # Iterate though X of pool
+                    for m in range(poolX):
+                        x_index = x*self.strides[0]+m-(poolX-1)//2
+                        x_out_of_bound = (x_index < 0) or (x_index >= self.input_shape[1])
 
-                            # Iterate though Y of pool
-                            for n in range(poolY):
-                                y_index = y*self.strides[1]+n-(poolY-1)//2
-                                y_out_of_bound = (y_index < 0) or (y_index >= self.input_shape[2])
+                        # Iterate though Y of pool
+                        for n in range(poolY):
+                            y_index = y*self.strides[1]+n-(poolY-1)//2
+                            y_out_of_bound = (y_index < 0) or (y_index >= self.input_shape[2])
 
-                                out_of_bounds = x_out_of_bound or y_out_of_bound
-                                
-                                if(not out_of_bounds):
-                                    current = feature_map[c_in, x_index, y_index] 
+                            out_of_bounds = x_out_of_bound or y_out_of_bound
+                            
+                            if(not out_of_bounds):
+                                current = feature_map[c_out, x_index, y_index] 
 
-                                    # Updates largest number if bigger
-                                    if(current > largest):
-                                        largest = current
+                                # Updates largest number if bigger
+                                if(current > largest):
+                                    largest = current
                     
                     output[c_out, x, y] = largest
         

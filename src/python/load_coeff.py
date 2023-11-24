@@ -64,11 +64,15 @@ def load_all():
 
     # Converting to correct sized np.arrays
     for name in Weights.keys():
+        print(f"Weights.shape: {Weights[name].shape}")
+
         # Create correct sized numpy array
         if name in ["conv1", "conv2", "conv3"]:
             weight_transposed = np.transpose(Weights[name], (4, 3, 1, 2, 0)).squeeze()
         else:
-            weight_transposed = np.transpose(Weights[name], (2, 1, 0)).squeeze()
+            weight_transposed = np.transpose(Weights[name], (1, 2, 0)).squeeze()
+        
+        print(weight_transposed.shape)
         
         bias_transposed = np.array(Biases[name])
         

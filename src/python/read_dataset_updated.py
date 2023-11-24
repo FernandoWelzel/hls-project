@@ -5,7 +5,7 @@ def unpickle(file):
         dict = pickle.load(fo, encoding='latin1')
     return dict
 
-File = "../../../cifar-10-python/cifar-10-batches-py/data_batch_1"
+File = "../../../cifar-10-python/cifar-10-batches-py/data_batch_5"
 data_batch_1 = unpickle(File)
 print(type(data_batch_1))
 print(data_batch_1.keys())

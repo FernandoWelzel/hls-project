@@ -12,12 +12,18 @@ class Sequential:
         # Base parameters
         self.layers = layers
 
+        # Output from each layer
+        self.outputs = []
+
     # Calculates the convolutional output
     def forward(self, feature_map):
         temp = feature_map
 
         for layer in self.layers:
             temp = layer.forward(temp)
+
+            # Store output of each layer
+            self.outputs.append(temp)
 
         return temp
     

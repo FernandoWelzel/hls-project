@@ -27,9 +27,10 @@ def normalize(image):
         for i in range(x_dimen):
             for j in range(y_dimen):
                 new_pixel = (channel_array[i, j] - mean)/max(std, (x_dimen*y_dimen)**(-1/2))
+
+                if new_pixel < -1: new_pixel = -1
+                elif new_pixel > 1: new_pixel = 1
  
                 new_image[channel, i, j] = new_pixel 
         
     return new_image
-    
-

@@ -5,6 +5,23 @@ import matplotlib.pyplot as plt
 import simpleFlow as sf
 from load_coeff import *
 from read_dataset import *
+from normalize import *
+
+# Basic definitions
+image_number = int(input("Enter image number: "))
+
+convesion_list = [
+    "airplane",										
+    "automobile",										
+    "bird",										
+    "cat",										
+    "deer",										
+    "dog",										
+    "frog",										
+    "horse",										
+    "ship",										
+    "truck"
+]
 
 # Creating network structure
 model = sf.Sequential([
@@ -34,19 +51,69 @@ weight, bias = load_all()
 model.load_weights(weight, bias)
 
 # Loading image
-file_path = "../../data/cifar-10-python/cifar-10-batches-py/data_batch_2"
-label, image = read_cifar10_batch(file_path)
+file_path = "../../data/cifar-10-python/cifar-10-batches-py/test_batch"
+label, image = read_cifar10_batch(file_path, image_number)
 
-image = np.transpose(image, (1, 2, 0))
+number_of_channels = 8
 
-data_batch = load_cifar10_batch(file_path)
+# Declaring picture
+fig, axs = plt.subplots(number_of_channels, 8)
 
-image = np.array(data_batch[b'data'])
+axs[0, 0].title.set_text(f"Figure {image_number}")
 
-print(image[0].shape)
+# Showing image
+for i in range(number_of_channels):
+    axs[i, 0].imshow(image)
 
-# plt.imshow()
-# plt.show()
+# Normalizing
+image = normalize(image)
+
+axs[0, 1].title.set_text(f"Figure {image_number} normalized")
+
+# Printing showing normalized image
+for i in range(number_of_channels):
+    axs[i, 1].imshow(image)
+
+for i in range(number_of_channels):
+    if i < 3:
+        axs[i, 1].imshow(image)
+
+image = np.transpose(image, (2, 0, 1))
+
+# for i in range(number_of_channels):
+#     if i < 3:
+#         print(i)
+#         axs[i, 1].imshow((image + 1)/2)
 
 # Inference using images
-# model.forward(image)
+result = model.forward(image)
+
+axs[0, 2].title.set_text(f"After conv1")
+axs[0, 3].title.set_text(f"After pool1")
+axs[0, 4].title.set_text(f"After conv2")
+axs[0, 5].title.set_text(f"After pool2")
+axs[0, 6].title.set_text(f"After conv3")
+axs[0, 7].title.set_text(f"After pool3")
+
+# Printing all layers
+for i in range(number_of_channels):
+    axs[i, 2].imshow(model.outputs[0][i])
+
+    axs[i, 3].imshow(model.outputs[1][i])
+
+    axs[i, 4].imshow(model.outputs[2][i])
+
+    axs[i, 5].imshow(model.outputs[3][i])
+
+    axs[i, 6].imshow(model.outputs[4][i])
+
+    axs[i, 7].imshow(model.outputs[5][i])
+
+
+fig.suptitle(f'label: {convesion_list[label]}\nresult: {convesion_list[np.argmax(result)]}', fontsize=30)
+
+# print(model.layers[2].weights[0])
+# print(model.outputs[1][:, 0:2, 0:2])
+
+# Show all images
+plt.show()
