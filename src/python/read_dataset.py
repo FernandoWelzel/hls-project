@@ -20,9 +20,7 @@ def read_cifar10_batch(file_path, index):
     image = image.transpose(1,2,0)
 
     # Cropping image
-    sub_image = image[3:27, 3:27]
-
-    print(sub_image.shape)
+    sub_image = image[4:28, 4:28]
 
     label = data_batch_1['labels'][index]
 

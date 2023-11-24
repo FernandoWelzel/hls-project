@@ -11,7 +11,12 @@ class Reshape(Layer):
     
     # Calculates the output
     def forward(self, feature_map):
+        output = np.zeros((feature_map.shape[0]*feature_map.shape[1]*feature_map.shape[2]))
+
         # Initializing result to zero
-        output = feature_map.flatten()
+        for x in range(feature_map.shape[1]):
+            for y in range(feature_map.shape[2]):
+                for c in range(feature_map.shape[0]):
+                    output[x*feature_map.shape[0]*feature_map.shape[1]+y*feature_map.shape[0]+c] = feature_map[c, x, y]
 
         return output

@@ -20,7 +20,6 @@ class MaxPooling2D(Layer):
         for size in pool_size:
             assert size%2 == 1
         
-
         # Initializing base class attributes
         super().__init__(name)
 
@@ -45,28 +44,26 @@ class MaxPooling2D(Layer):
         columns = self.output_shape[2]
         channels_out = self.output_shape[0]
 
-        channels_in = self.input_shape[0]
-
         poolX = self.pool_size[0]
         poolY = self.pool_size[1]
 
         # Compute each channel
         for c_out in range(channels_out):
             # Compute each row
-            for x in range(rows):
+            for x in range(1, rows+1):
                 # Compute each column
-                for y in range(columns):
+                for y in range(1, columns+1):
                     # Initializing sum
                     largest = 0
                     
                     # Iterate though X of pool
                     for m in range(poolX):
-                        x_index = x*self.strides[0]+m-(poolX-1)//2
+                        x_index = x*self.strides[0]+m-(poolX-1)//2 -(self.strides[0]-1)
                         x_out_of_bound = (x_index < 0) or (x_index >= self.input_shape[1])
 
                         # Iterate though Y of pool
                         for n in range(poolY):
-                            y_index = y*self.strides[1]+n-(poolY-1)//2
+                            y_index = y*self.strides[1]+n-(poolY-1)//2 -(self.strides[1]-1)
                             y_out_of_bound = (y_index < 0) or (y_index >= self.input_shape[2])
 
                             out_of_bounds = x_out_of_bound or y_out_of_bound
@@ -78,6 +75,6 @@ class MaxPooling2D(Layer):
                                 if(current > largest):
                                     largest = current
                     
-                    output[c_out, x, y] = largest
+                    output[c_out, x-1, y-1] = largest
         
         return output

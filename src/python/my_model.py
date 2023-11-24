@@ -7,21 +7,27 @@ from load_coeff import *
 from read_dataset import *
 from normalize import *
 
-# Basic definitions
-image_number = int(input("Enter image number: "))
+# Load the saved weights
+loaded_weights = np.load('../../data/model_weights.npy', allow_pickle=True)  # Use allow_pickle=True for NumPy versions >= 1.16
 
-convesion_list = [
-    "airplane",										
-    "automobile",										
-    "bird",										
-    "cat",										
-    "deer",										
-    "dog",										
-    "frog",										
-    "horse",										
-    "ship",										
-    "truck"
-]
+weights = {
+    "conv1" : loaded_weights[0],
+    "conv2" : loaded_weights[2],
+    "conv3" : loaded_weights[4],
+    "local3" : loaded_weights[6],
+}
+
+bias = {
+    "conv1" : loaded_weights[1],
+    "conv2" : loaded_weights[3],
+    "conv3" : loaded_weights[5],
+    "local3" : loaded_weights[7],
+}
+
+for name in weights.keys():
+    # Create correct sized numpy array
+    if name in ["conv1", "conv2", "conv3"]:
+        weights[name] = np.transpose(weights[name], (3, 2, 0, 1)).squeeze()
 
 # Creating network structure
 model = sf.Sequential([
@@ -44,17 +50,47 @@ model = sf.Sequential([
     sf.Dense(input_size=180, output_size=10, name="local3")
 ])
 
-# Storing weights and biases as numpy array
-weight, bias = load_all()
-
 # Loading weights from weights
-model.load_weights(weight, bias)
+model.load_weights(weights, bias)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Basic definitions
+image_number = int(input("Enter image number: "))
+
+convesion_list = [
+    "airplane",										
+    "automobile",										
+    "bird",										
+    "cat",										
+    "deer",										
+    "dog",										
+    "frog",										
+    "horse",										
+    "ship",										
+    "truck"
+]
 
 # Loading image
-file_path = "../../data/cifar-10-python/cifar-10-batches-py/test_batch"
+file_path = "../../data/cifar-10-python/cifar-10-batches-py/data_batch_1"
 label, image = read_cifar10_batch(file_path, image_number)
 
-number_of_channels = 8
+number_of_channels = 3
 
 # Declaring picture
 fig, axs = plt.subplots(number_of_channels, 8)
@@ -66,7 +102,7 @@ for i in range(number_of_channels):
     axs[i, 0].imshow(image)
 
 # Normalizing
-image = normalize(image)
+image = image/255.0
 
 axs[0, 1].title.set_text(f"Figure {image_number} normalized")
 
@@ -79,11 +115,6 @@ for i in range(number_of_channels):
         axs[i, 1].imshow(image)
 
 image = np.transpose(image, (2, 0, 1))
-
-# for i in range(number_of_channels):
-#     if i < 3:
-#         print(i)
-#         axs[i, 1].imshow((image + 1)/2)
 
 # Inference using images
 result = model.forward(image)
@@ -109,8 +140,10 @@ for i in range(number_of_channels):
 
     axs[i, 7].imshow(model.outputs[5][i])
 
+print(model.outputs[6])
 
 fig.suptitle(f'label: {convesion_list[label]}\nresult: {convesion_list[np.argmax(result)]}', fontsize=30)
 
 # Show all images
 plt.show()
+

@@ -8,7 +8,7 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/src/python/model.py",
+            "program": "${workspaceFolder}/src/python/my_model.py",
             "cwd": "${workspaceFolder}/src/python",
             "console": "integratedTerminal",
             "justMyCode": true
