@@ -2,11 +2,7 @@
 import numpy as np
 import string
 
-
-# Defining path to weights file
-weightsPath = "../../data/3x3/"
-
-def load_weight(argument: string, coefficient:dict, verbose:bool = False) -> dict:
+def load_weight(argument: string, coefficient:dict, verbose:bool = False, weightsPath : string = "../../data/3x3/") -> dict:
     # argument: name of the file containing data
     # coefficient: dictionary of coefficients to be imported
     # verbose: argument to show prints
@@ -36,7 +32,7 @@ def load_weight(argument: string, coefficient:dict, verbose:bool = False) -> dic
     if(verbose): print("End of Function")
     return coefficient
 
-def load_all():
+def load_all(weightsPath : string = "../../data/3x3/"):
     # Dictionaries Definition
     Weights = {
         "conv1": [],
@@ -53,26 +49,22 @@ def load_all():
     }
 
     # Loading for each file
-    load_weight(argument="conv1_biases.txt", coefficient=Biases)
-    load_weight(argument="conv1_weights.txt", coefficient=Weights)
-    load_weight(argument="conv2_biases.txt", coefficient=Biases)
-    load_weight(argument="conv2_weights.txt", coefficient=Weights)
-    load_weight(argument="conv3_biases.txt", coefficient=Biases)
-    load_weight(argument="conv3_weights.txt", coefficient=Weights)
-    load_weight(argument="local3_biases.txt", coefficient=Biases)
-    load_weight(argument="local3_weights.txt", coefficient=Weights)
+    load_weight(argument="conv1_biases.txt", coefficient=Biases, weightsPath=weightsPath)
+    load_weight(argument="conv1_weights.txt", coefficient=Weights, weightsPath=weightsPath)
+    load_weight(argument="conv2_biases.txt", coefficient=Biases, weightsPath=weightsPath)
+    load_weight(argument="conv2_weights.txt", coefficient=Weights, weightsPath=weightsPath)
+    load_weight(argument="conv3_biases.txt", coefficient=Biases, weightsPath=weightsPath)
+    load_weight(argument="conv3_weights.txt", coefficient=Weights, weightsPath=weightsPath)
+    load_weight(argument="local3_biases.txt", coefficient=Biases, weightsPath=weightsPath)
+    load_weight(argument="local3_weights.txt", coefficient=Weights, weightsPath=weightsPath)
 
     # Converting to correct sized np.arrays
     for name in Weights.keys():
-        print(f"Weights.shape: {Weights[name].shape}")
-
         # Create correct sized numpy array
         if name in ["conv1", "conv2", "conv3"]:
             weight_transposed = np.transpose(Weights[name], (4, 3, 1, 2, 0)).squeeze()
         else:
             weight_transposed = np.transpose(Weights[name], (1, 2, 0)).squeeze()
-        
-        print(weight_transposed.shape)
         
         bias_transposed = np.array(Biases[name])
         
