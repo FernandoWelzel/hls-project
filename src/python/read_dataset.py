@@ -1,5 +1,4 @@
 # Imports
-import numpy as np
 import pickle
 
 from normalize import *

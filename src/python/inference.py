@@ -1,4 +1,5 @@
 import argparse
+import matplotlib.pyplot as plt
 
 import simpleFlow as sf
 from load_coeff import *
@@ -8,11 +9,13 @@ from normalize import *
 # Label conversion list
 convesion_list = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
 
-def main():
-    parser = argparse.ArgumentParser(description='Evaluates the performance of a pretrained CNN for the CIFAR-10 dataset.')
+def inference():
+    parser = argparse.ArgumentParser(description='Prints a single inference from a image in the CIFAR-10 dataset')
 
-    parser.add_argument('-s', '--steps', help='Number of simulations steps', required=True)
+    parser.add_argument('-i', '--image', help='Number of the test image', required=False, default="0")
     parser.add_argument('-t', '--type', help='Network type - Either 3x3 or 5x5', required=False, default="3x3")
+    parser.add_argument('-p', '--plot', action="store_true", help='Plot inference results')
+    parser.add_argument('-c', '--channels', help='Number of channels using during plotting', required=False, default="3")
     
     args = parser.parse_args()
 
@@ -56,24 +59,46 @@ def main():
 
     # Importing image
     file_path = "../../data/cifar-10-python/cifar-10-batches-py/test_batch"
+    
+    label, image = read_cifar10_batch(file_path, int(args.image))
+    
+    normalized_image = normalize(image)
+    normalized_image = np.transpose(normalized_image, (2, 0, 1))
 
     # Inference
-    correct = 0
-    for s in range(int(args.steps)):
-        label, image = read_cifar10_batch(file_path, s)
+    result = model.forward(normalized_image)
 
-        image = normalize(image)
+    predicted = convesion_list[np.argmax(result)]
+    
+    print(f"Label/Predicted: {convesion_list[label]}/{predicted}")
 
-        image = np.transpose(image, (2, 0, 1))
+    # Plotting result using MatplotLib
+    if(args.plot):
+        # Declaring picture
+        fig, axs = plt.subplots(int(args.channels), 8)
 
-        result = model.forward(image)
+        # Setting titles
+        titles = ["Initial", "Normalized", "Conv1", "Pool1", "Conv2", "Pool2", "Conv3", "Pool3"]
 
-        print(f"Label/Predicted: {convesion_list[label]}/{convesion_list[np.argmax(result)]}")
+        for i, title in enumerate(titles):
+            axs[0, i].title.set_text(title)
 
-        if(np.argmax(result) == label):
-            correct += 1
+        # Showing image
+        for i in range(int(args.channels)):
+            axs[i, 0].imshow(image)
+
+        # Printing showing normalized image
+        normalized_image = np.transpose(normalized_image, (1, 2, 0))
+
+        for i in range(int(args.channels)):
+            axs[i, 1].imshow(image)
+
+        # Printing all layers
+        for i in range(int(args.channels)):
+            for j in range(6):
+                axs[i, j+2].imshow(model.outputs[j][i])
         
-    print(f"Accuracy: {correct}/{int(args.steps)} = {correct*100/int(args.steps):.2f}%")    
-
+        plt.show()
+          
 if __name__ == "__main__":
-    main()
+    inference()

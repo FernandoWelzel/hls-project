@@ -8,5 +8,12 @@ The python project can be run going to `src/python` and executing the `main.py` 
 
 ```sh
 cd src/python
-python3 main.py -s 10 -t 3x3
+python main.py --steps 10 --type 3x3
+```
+
+To make an inference for an specific image use the following command. This will perform the inference for 42th image of the test dataset and plot the results using Matplotlib.
+
+```sh
+cd src/python
+python inference.py --image 42 --plot
 ```
