@@ -1,8 +1,7 @@
 # Imports
 import numpy as np
-import string
 
-def load_weight(argument: string, coefficient:dict, verbose:bool = False, weightsPath : string = "../../data/3x3/") -> dict:
+def load_weight(argument: str, coefficient:dict, verbose:bool = False, weightsPath : str = "../../data/3x3/") -> dict:
     # argument: name of the file containing data
     # coefficient: dictionary of coefficients to be imported
     # verbose: argument to show prints
@@ -13,7 +12,7 @@ def load_weight(argument: string, coefficient:dict, verbose:bool = False, weight
     # Opening File
     inFile = open(weightsPath+argument, 'r')
     
-    # Initializing empty string
+    # Initializing empty str
     data = ""
 
     for line in inFile:
@@ -32,7 +31,7 @@ def load_weight(argument: string, coefficient:dict, verbose:bool = False, weight
     if(verbose): print("End of Function")
     return coefficient
 
-def load_all(weightsPath : string = "../../data/3x3/"):
+def load_all(weightsPath : str = "../../data/3x3/"):
     # Dictionaries Definition
     Weights = {
         "conv1": [],
