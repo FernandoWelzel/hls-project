@@ -8,6 +8,16 @@ from normalize import *
 # Label conversion list
 convesion_list = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
 
+"""
+This function defines the main entry point for a Python script that evaluates the performance of a pretrained Convolutional Neural Network (CNN) on the CIFAR-10 dataset.
+
+Command-line arguments:
+  -s, --steps: Number of simulation steps (required argument).
+  -t, --type: Network type, either '3x3' or '5x5' (optional argument, default is '3x3').
+
+Usage example:
+  python script.py -s 1000 -t 5x5
+"""
 def main():
     parser = argparse.ArgumentParser(description='Evaluates the performance of a pretrained CNN for the CIFAR-10 dataset.')
 
@@ -19,7 +29,7 @@ def main():
     # Defining architectural variables
     weightsPath = f"../../data/{args.type}/"
 
-    # Kernel size
+    # Kernel size        
     if(args.type == "3x3"):
         kernel_size = (3, 3)
     elif(args.type == "5x5"):
