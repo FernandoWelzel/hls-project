@@ -36,9 +36,13 @@ class Conv2D(Layer):
         # Internal matrices
         self.weights = np.ones((output_shape[0], input_shape[0], kernel_size[0], kernel_size[1]), dtype=float)
         self.bias = np.ones(output_shape[0], dtype=float)
-
+        
     # Calculates the convolutional output
     def forward(self, feature_map):
+        # If input is 2 dimentional, transforms into 3 dimensions
+        if(feature_map.ndim == 2):
+            feature_map = feature_map.reshape((1, feature_map.shape[0], feature_map.shape[1]))
+        
         output = np.zeros(self.output_shape, dtype=float)
 
         # Output shapes
