@@ -1,6 +1,7 @@
 // Include files for data types
-#include "FIR_TYPES.h"
+#include "types.hpp"
 #include "conv2d.hpp"
+
 #include <iostream>
 
 // Main design

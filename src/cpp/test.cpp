@@ -9,7 +9,8 @@
 
 // Include files for data types
 #include "conv2d.hpp"
-#include "FIR_TYPES.h"
+#include "types.hpp"
+
 #include <iostream>
 
 int main(int argc, char const *argv[]) {    
