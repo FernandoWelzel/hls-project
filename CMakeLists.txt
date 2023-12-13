@@ -11,3 +11,4 @@ enable_testing()
 
 # Adding directories
 add_subdirectory(src)
+add_subdirectory(test)
