@@ -17,7 +17,7 @@
 #define output_index(c_out, x, y) (c_out*ROWS*COLUMNS + x*COLUMNS + y)
 
 // Include files for data types
-#include "types.hpp"
+#include "CONV2D_TYPES.hpp"
 
 void CONV_HARDWARE(
     // Input

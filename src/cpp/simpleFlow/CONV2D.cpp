@@ -1,6 +1,6 @@
 // Include files for data types
-#include "types.hpp"
-#include "conv2d.hpp"
+#include "CONV2D_TYPES.hpp"
+#include "CONV2D.hpp"
 
 #include <iostream>
 

@@ -8,8 +8,8 @@
 #define K_Y 3
 
 // Include files for data types
-#include "conv2d.hpp"
-#include "types.hpp"
+#include "CONV2D.hpp"
+#include "CONV2D_TYPES.hpp"
 
 #include <iostream>
 
