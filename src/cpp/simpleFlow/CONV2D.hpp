@@ -11,7 +11,7 @@
     #define K_Y 3
 #endif
 
-#define index(x_y, m_n, kernel_x_y) (x_y+m_n-(kernel_x_y-1)/2)
+#define kernel_index(x_y, m_n, kernel_x_y) (x_y+m_n-(kernel_x_y-1)/2)
 #define coeff_index(c_out, c_in, m, n) (c_out*C_IN*K_X*K_Y + c_in*K_X*K_Y + m*K_Y + n)
 #define feature_index(c_in, m, n) (c_in*K_X*K_Y + m*K_Y + n)
 #define output_index(c_out, x, y) (c_out*ROWS*COLUMNS + x*COLUMNS + y)

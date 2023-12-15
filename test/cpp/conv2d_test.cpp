@@ -12,8 +12,11 @@
 #include "CONV2D_TYPES.hpp"
 
 #include <iostream>
+#include <gtest/gtest.h>
 
-int main(int argc, char const *argv[]) {    
+// Simple test - try to read a value from bus
+TEST(conv2d_test, conv2d_minimal)
+{
     // Test variables
     d_type data_in[C_IN*ROWS*COLUMNS];
     d_type data_out[C_OUT*ROWS*COLUMNS];
@@ -35,14 +38,11 @@ int main(int argc, char const *argv[]) {
 
     // Test main loop
     CONV_HARDWARE(data_in, coeffs_in, bias_in, data_out);
+}
 
-    // Printing ordered result
-    for(int i = 0; i < ROWS; i++) {
-        for(int j = 0; j < COLUMNS; j++) {
-            std::cout << data_out[i*ROWS+j] << " ";
-        }
-        std::cout << std::endl;
-    }
-
-    return 0;
+// Runs all TEST functions declared at this file
+int main(int argc, char** argv)
+{
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

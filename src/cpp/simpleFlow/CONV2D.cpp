@@ -35,12 +35,12 @@ void CONV_HARDWARE(
                 // Compute each pixel
                 CHANNEL_IN:for(int c_in = 0; c_in < C_IN; c_in++) {
                     KERNEL_X:for(int m = 0; m < K_X; m++) {
-                        x_index = index(x, m, K_X);
+                        x_index = kernel_index(x, m, K_X);
                         
                         // Check if row is out of bounds
                         X_BOUNDS:if(x_index >= 0 && x_index < ROWS) {
                             KERNEL_Y:for(int n = 0; n < K_Y; n++) {
-                                y_index = index(y, n, K_Y);
+                                y_index = kernel_index(y, n, K_Y);
 
                                 // Check the if value is out of bounds
                                 Y_BOUNDS:if(y_index >= 0 && y_index < COLUMNS) {
