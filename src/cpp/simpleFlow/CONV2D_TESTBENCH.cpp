@@ -14,6 +14,8 @@
 #include <iostream>
 #include <iomanip>
 
+#include "mc_scverify.h"
+
 CCS_MAIN(int argc, char **argv) {
     // Test variables
     d_type data_in[C_IN*ROWS*COLUMNS];
