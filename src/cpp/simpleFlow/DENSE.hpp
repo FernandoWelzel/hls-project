@@ -6,7 +6,7 @@
 
 // Building macros
 #define DENSE_HARDWARE_INCLUDE(NAME, INPUT_SIZE, OUTPUT_SIZE) \
-void HARDWARE_##NAME##( \
+void HARDWARE_##NAME( \
     d_type data_in[INPUT_SIZE], \
     c_type coeffs_in[OUTPUT_SIZE*INPUT_SIZE], \
     c_type bias_in[OUTPUT_SIZE], \

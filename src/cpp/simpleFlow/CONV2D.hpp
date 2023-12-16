@@ -12,7 +12,7 @@
 
 // Building macros
 #define CONV_HARDWARE_INCLUDE(NAME, ROWS, COLUMNS, C_IN, C_OUT, K_X, K_Y) \
-void HARDWARE_##NAME##( \
+void HARDWARE_##NAME( \
     d_type data_in[C_IN*ROWS*COLUMNS], \
     c_type coeffs_in[C_OUT*C_IN*K_X*K_Y], \
     c_type bias_in[C_OUT], \

@@ -4,7 +4,7 @@
 
 // Main macro for convolution definition
 #define POOL2D_HARDWARE_MACRO(NAME, ROWS, COLUMNS, CHANNELS, K_X, K_Y) \
-void HARDWARE_##NAME##( \
+void HARDWARE_##NAME( \
     d_type data_in[CHANNELS*ROWS*COLUMNS], \
     d_type *data_out \
 ) { \

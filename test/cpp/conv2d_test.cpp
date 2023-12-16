@@ -37,7 +37,7 @@ TEST(conv2d_test, conv2d_minimal)
     }
 
     // Test main loop
-    CONV_HARDWARE(data_in, coeffs_in, bias_in, data_out);
+    HARDWARE_CONV1(data_in, coeffs_in, bias_in, data_out);
 }
 
 // Runs all TEST functions declared at this file

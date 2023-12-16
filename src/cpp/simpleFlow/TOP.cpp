@@ -9,7 +9,7 @@
 
 // Main design
 #pragma hls_design top
-void TOP(
+void HARDWARE_TOP(
     // Input
     d_type data_in[24*24*3],
     

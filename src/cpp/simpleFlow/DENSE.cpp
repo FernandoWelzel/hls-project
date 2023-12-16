@@ -4,7 +4,7 @@
 
 // Main macro for convolution definition
 #define DENSE_HARDWARE_MACRO(NAME, INPUT_SIZE, OUTPUT_SIZE) \
-void HARDWARE_##NAME##( \
+void HARDWARE_##NAME( \
     d_type data_in[INPUT_SIZE], \
     c_type coeffs_in[OUTPUT_SIZE*INPUT_SIZE], \
     c_type bias_in[OUTPUT_SIZE], \
@@ -15,7 +15,7 @@ void HARDWARE_##NAME##( \
     d_type value; \
     OUT:for(int out = 0; out < OUTPUT_SIZE; out++) { \
         sum = bias_in[out]; \
-        IN:for(int in = 0; in < INPUT_SIZE; in++) { \    
+        IN:for(int in = 0; in < INPUT_SIZE; in++) { \
             weight = coeffs_in[out*OUTPUT_SIZE+in]; \
             value = data_in[in]; \
             sum += weight*value; \
