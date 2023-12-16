@@ -7,7 +7,7 @@
 #define K_X 3
 #define K_Y 3
 
-#include "CONV2D_TYPES.hpp"
+#include "TYPES.hpp"
 #include "CONV2D.hpp"
 
 #include <fstream>

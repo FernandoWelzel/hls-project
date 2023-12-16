@@ -9,7 +9,7 @@
 
 // Include files for data types
 #include "CONV2D.hpp"
-#include "CONV2D_TYPES.hpp"
+#include "TYPES.hpp"
 
 #include <iostream>
 #include <gtest/gtest.h>
