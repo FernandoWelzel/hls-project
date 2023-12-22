@@ -1,5 +1,8 @@
 add_library(simpleFlowLibrary
-    conv2d.cpp
+    CONV2D.cpp
+    POOL2D.cpp
+    DENSE.cpp
+    TOP.cpp
     load.cpp
 )
 

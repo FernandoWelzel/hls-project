@@ -7,13 +7,16 @@
 #define K_X 3
 #define K_Y 3
 
-// Include files for data types
-#include "conv2d.hpp"
-#include "types.hpp"
+#include "TYPES.hpp"
+#include "CONV2D.hpp"
 
+#include <fstream>
 #include <iostream>
+#include <iomanip>
 
-int main(int argc, char const *argv[]) {    
+#include "mc_scverify.h"
+
+CCS_MAIN(int argc, char **argv) {
     // Test variables
     d_type data_in[C_IN*ROWS*COLUMNS];
     d_type data_out[C_OUT*ROWS*COLUMNS];
@@ -34,7 +37,7 @@ int main(int argc, char const *argv[]) {
     }
 
     // Test main loop
-    CONV_HARDWARE(data_in, coeffs_in, bias_in, data_out);
+	CCS_DESIGN(CONV_HARDWARE)(data_in, coeffs_in, bias_in, data_out);
 
     // Printing ordered result
     for(int i = 0; i < ROWS; i++) {
@@ -44,5 +47,5 @@ int main(int argc, char const *argv[]) {
         std::cout << std::endl;
     }
 
-    return 0;
+	CCS_RETURN(0);
 }
