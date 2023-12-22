@@ -69,7 +69,17 @@ def load_all(weightsPath : str = "../../data/3x3/"):
         
         Weights.update({name: weight_transposed})     
         Biases.update({name: bias_transposed})
+
+        with open(f"weights_{name}", "wb") as file:
+            weight_transposed.tofile(file)
+
+        with open(f"bias_{name}", "wb") as file:
+            bias_transposed.tofile(file)
+
+    # print(max(Weights["local3"]))
+    # print(max(Biases["local3"]))
     
     # Reshaping np.arrays for correct size
     return Weights, Biases
+    
 
