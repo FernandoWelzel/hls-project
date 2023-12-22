@@ -3,6 +3,7 @@
 
 // Include files for data types
 #include "TYPES.hpp"
+#include "CONFIG.hpp"
 
 // Building macros
 #define DENSE_HARDWARE_INCLUDE(NAME, INPUT_SIZE, OUTPUT_SIZE) \
@@ -14,6 +15,6 @@ void HARDWARE_##NAME( \
 ) 
 
 // Defining the function calling
-DENSE_HARDWARE_INCLUDE(DENSE, 180, 10);
+DENSE_HARDWARE_INCLUDE(DENSE, INPUT_SIZE_DENSE, OUTPUT_SIZE_DENSE);
 
 #endif

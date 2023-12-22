@@ -1,5 +1,6 @@
 // Include files for data types
 #include "TYPES.hpp"
+#include "CONFIG.hpp"
 #include "DENSE.hpp"
 
 // Main macro for convolution definition
@@ -20,6 +21,7 @@ void HARDWARE_##NAME( \
             value = data_in[in]; \
             sum += weight*value; \
         } \
+        std::cout << sum << std::endl; \
         data_out[out] = sum; \
     } \
 } \
@@ -28,4 +30,4 @@ void HARDWARE_##NAME( \
 #pragma hls_design hidden
 
 // Defining the each type of convolution
-DENSE_HARDWARE_MACRO(DENSE, 180, 10);
+DENSE_HARDWARE_MACRO(DENSE, INPUT_SIZE_DENSE, OUTPUT_SIZE_DENSE);

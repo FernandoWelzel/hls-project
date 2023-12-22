@@ -1,6 +1,7 @@
 // Include files for data types
 #include "TYPES.hpp"
 #include "TOP.hpp"
+#include "CONFIG.hpp"
 #include "CONV2D.hpp"
 #include "POOL2D.hpp"
 #include "DENSE.hpp"
@@ -11,35 +12,35 @@
 #pragma hls_design top
 void HARDWARE_TOP(
     // Input
-    d_type data_in[24*24*3],
+    d_type data_in[ROWS_CONV1*COLUMNS_CONV1*CHANNELS_IN_CONV1],
     
     // Configuration values
-    c_type coeffs1_in[3*3*3*64],
-    c_type bias1_in[64],
+    c_type coeffs1_in[KERNEL_X*KERNEL_Y*CHANNELS_IN_CONV1*CHANNELS_OUT_CONV1],
+    c_type bias1_in[CHANNELS_OUT_CONV1],
 
-    c_type coeffs2_in[3*3*64*32],
-    c_type bias2_in[32],
+    c_type bias2_in[CHANNELS_OUT_CONV2],
+    c_type coeffs2_in[KERNEL_X*KERNEL_Y*CHANNELS_IN_CONV2*CHANNELS_OUT_CONV2],
     
-    c_type coeffs3_in[3*3*32*20],
-    c_type bias3_in[20],
+    c_type coeffs3_in[KERNEL_X*KERNEL_Y*CHANNELS_IN_CONV3*CHANNELS_OUT_CONV3],
+    c_type bias3_in[CHANNELS_OUT_CONV3],
 
-    c_type coeffs_dense_in[3*3*20*10],
-    c_type bias_dense_in[10],
+    c_type coeffs_dense_in[INPUT_SIZE_DENSE*OUTPUT_SIZE_DENSE],
+    c_type bias_dense_in[OUTPUT_SIZE_DENSE],
 
     // Output
     ac_channel<d_type> data_out
 )
 {
     // Intermidiate variables
-    d_type data_conv1[24*24*64];
-    d_type data_conv2[12*12*32];
-    d_type data_conv3[6*6*20];
+    d_type data_conv1[ROWS_CONV1*COLUMNS_CONV1*CHANNELS_OUT_CONV1];
+    d_type data_conv2[ROWS_CONV2*COLUMNS_CONV2*CHANNELS_OUT_CONV2];
+    d_type data_conv3[ROWS_CONV3*COLUMNS_CONV3*CHANNELS_OUT_CONV3];
     
-    d_type data_pool1[12*12*64];
-    d_type data_pool2[6*6*32];
-    d_type data_pool3[3*3*20];
+    d_type data_pool1[ROWS_CONV2*COLUMNS_CONV2*CHANNELS_OUT_CONV2];
+    d_type data_pool2[ROWS_CONV3*COLUMNS_CONV3*CHANNELS_OUT_CONV3];
+    d_type data_pool3[INPUT_SIZE_DENSE];
 
-    d_type data_dense[10];
+    d_type data_dense[OUTPUT_SIZE_DENSE];
 
     // Processing
     HARDWARE_CONV1(data_in, coeffs1_in, bias1_in, data_conv1);
@@ -56,12 +57,13 @@ void HARDWARE_TOP(
     d_type max = 0;
 
     // Finding max
-    for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < OUTPUT_SIZE_DENSE; i++) {
         if(data_dense[i] > max) {
             max = data_dense[i];
         }
     }
 
-    // Writing final result - Wrong: It should be the index
+    std::cout << "Max: " << max << std::endl;
+
     data_out.write(max);
 }

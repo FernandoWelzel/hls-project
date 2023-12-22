@@ -10,34 +10,31 @@
 
 CCS_MAIN(int argc, char **argv) {
     // Test variables
-    d_type data_in[C_IN*ROWS*COLUMNS];
+    d_type data_in[CHANNELS_IN_CONV1*ROWS_CONV1*COLUMNS_CONV1];
+    
+    c_type coeffs_conv1[COEFFS_CONV1];
+    c_type bias_conv1[CHANNELS_OUT_CONV1];
+
+    c_type coeffs_conv2[COEFFS_CONV2];
+    c_type bias_conv2[CHANNELS_OUT_CONV2];
+
+    c_type coeffs_conv3[COEFFS_CONV3];
+    c_type bias_conv3[CHANNELS_OUT_CONV3];
+
+    c_type coeffs_dense[OUTPUT_SIZE_DENSE*INPUT_SIZE_DENSE];
+    c_type bias_dense[OUTPUT_SIZE_DENSE];
+
     ac_channel<d_type> data_out;
 
-    c_type coeffs_in[C_OUT*C_IN*ROWS*COLUMNS];
-    c_type bias_in[C_OUT];
-
-    // Fill with arbitrary data
-    for(int i = 0; i < C_IN*ROWS*COLUMNS; i++) {
-        data_in[i] = 1;
-    }
+    // TODO: Load coefficients and image
     
-    for(int j = 0; j < C_OUT*C_IN*ROWS*COLUMNS; j++) {
-        coeffs_in[j] = 5e-1;
-    }
-    
-    for(int k = 0; k < C_OUT; k++) {
-        bias_in[k] = 1;
-    }
 
     // Test main loop
 	CCS_DESIGN(CONV_HARDWARE)(data_in, coeffs_in, bias_in, data_out);
 
     // Printing ordered result
-    for(int i = 0; i < ROWS; i++) {
-        for(int j = 0; j < COLUMNS; j++) {
-            std::cout << data_out[i*ROWS+j] << " ";
-        }
-        std::cout << std::endl;
+    for(int i = 0; i < OUTPUT_SIZE_DENSE; i++) {
+        std::cout << data_out[i*ROWS+j] << " ";
     }
 
 	CCS_RETURN(0);
