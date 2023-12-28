@@ -11,7 +11,7 @@ void HARDWARE_##NAME( \
     d_type data_in[INPUT_SIZE], \
     c_type coeffs_in[OUTPUT_SIZE*INPUT_SIZE], \
     c_type bias_in[OUTPUT_SIZE], \
-    d_type *data_out \
+    d_type data_out[OUTPUT_SIZE] \
 ) 
 
 // Defining the function calling

@@ -3,17 +3,16 @@
 
 // Include needed libraries
 #include <iostream>
-#include "types.hpp"  // Importing c_type and d_type
-#include "conv2d.hpp" // Importing architecture variables
+
+#include "TYPES.hpp"  // Importing c_type and d_type
+#include "CONV2D.hpp" // Importing architecture variables
+#include "CONFIG.hpp"
 
 using namespace std;
 
 void load_image(
     // Input
     ifstream& source
-
-    // Output
-    // c_type data_out[C_OUT*C_IN*ROWS*COLUMNS]
 );
 
 void load_weight(
@@ -21,7 +20,7 @@ void load_weight(
     ifstream source,
 
     // Output
-    c_type coeffs_out[C_OUT*C_IN*ROWS*COLUMNS]
+    c_type *coeffs_out
 );
 
 void load_biases(
@@ -29,7 +28,7 @@ void load_biases(
     ifstream source,
 
     // Output
-    c_type coeffs_out[C_OUT*C_IN*ROWS*COLUMNS]
+    c_type *coeffs_out
 );
 
 void load_all(); // TODO

@@ -4,7 +4,7 @@
 #include <fstream>
 
 #include "formatting.h"
-#include "simpleFlow/load.hpp"
+#include "load.hpp"
 
 using namespace std;
 

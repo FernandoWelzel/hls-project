@@ -6,7 +6,7 @@
 #define POOL2D_HARDWARE_MACRO(NAME, ROWS, COLUMNS, CHANNELS, K_X, K_Y) \
 void HARDWARE_##NAME( \
     d_type data_in[CHANNELS*ROWS*COLUMNS], \
-    d_type *data_out \
+    d_type data_out[CHANNELS*ROWS*COLUMNS/4] \
 ) { \
     d_type largest; \
     d_type pixel; \
@@ -16,10 +16,10 @@ void HARDWARE_##NAME( \
         ROW:for(int x = 0; x < ROWS; x++) { \
             COLUMN:for(int y = 0; y < COLUMNS; y++) { \
                 largest = 0; \
-                KERNEL_X:for(int m = 0; m < K_X; m++) { \
+                AXIS_KERNEL_X:for(int m = 0; m < K_X; m++) { \
                     x_index = x*2 + m; \
                     X_BOUNDS:if(x_index >= 0 && x_index < ROWS) { \
-                        KERNEL_Y:for(int n = 0; n < K_Y; n++) { \
+                        AXIS_KERNEL_Y:for(int n = 0; n < K_Y; n++) { \
                             y_index = y*2 + n; \
                             Y_BOUNDS:if(y_index >= 0 && y_index < COLUMNS) { \
                                 pixel = data_in[feature_index(c, m, n, K_X, K_Y)]; \
@@ -39,8 +39,7 @@ void HARDWARE_##NAME( \
 // Defining desings as sub-blocks
 #pragma hls_design hidden
 
-// Defining the each type of convolution
-POOL2D_HARDWARE_MACRO(POOL1, 24, 24, 64, 3, 3);
-POOL2D_HARDWARE_MACRO(POOL2, 12, 12, 32, 3, 3);
-POOL2D_HARDWARE_MACRO(POOL3,  6,  6, 20, 3, 3);
-
+// Defining the function calling
+POOL2D_HARDWARE_MACRO(POOL1, ROWS_CONV1, COLUMNS_CONV1, CHANNELS_OUT_CONV1, KERNEL_X, KERNEL_Y);
+POOL2D_HARDWARE_MACRO(POOL2, ROWS_CONV2, COLUMNS_CONV2, CHANNELS_OUT_CONV2, KERNEL_X, KERNEL_Y);
+POOL2D_HARDWARE_MACRO(POOL3, ROWS_CONV3, COLUMNS_CONV3, CHANNELS_OUT_CONV3, KERNEL_X, KERNEL_Y);

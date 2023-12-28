@@ -17,7 +17,7 @@ void HARDWARE_##NAME( \
     d_type data_in[C_IN*ROWS*COLUMNS], \
     c_type coeffs_in[C_OUT*C_IN*K_X*K_Y], \
     c_type bias_in[C_OUT], \
-    d_type *data_out \
+    d_type data_out[C_OUT*ROWS*COLUMNS] \
 )
 
 // Defining the function calling

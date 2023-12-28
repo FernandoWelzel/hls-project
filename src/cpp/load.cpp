@@ -1,9 +1,10 @@
 // Include needed libraries
 #include <iostream>
-#include <fstream> 
-#include "load.hpp"
+#include <fstream>
 #include <string>
 #include <sstream>
+
+#include "load.hpp"
 
 using namespace std;
 
