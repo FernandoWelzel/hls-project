@@ -49,9 +49,10 @@ make
 
 # Things to do
 
-- [ ] C++ hardware: General functions that are to be synthesizable
-  - [ ] Convolution -> CONV_HARDWARE
-  - [ ] Maxpooling -> POOL_HARDWARE
-  - [ ] Dense -> DENSE_HARDWARE
-  - [ ] Top -> TOP_HARDWARE : Integration of all functions
+- [*] C++ hardware: General functions that are to be synthesizable
+  - [*] Convolution -> CONV_HARDWARE
+  - [*] Maxpooling -> POOL_HARDWARE
+  - [*] Dense -> DENSE_HARDWARE
+  - [*] Top -> TOP_HARDWARE : Integration of all functions
+- [ ] Analyse the general architecture - Change pointer reference between blocks
 - [ ] C++ testbench - Should be CCS_MAIN(): Reads images and coefficients and supply them to network and compare the results
