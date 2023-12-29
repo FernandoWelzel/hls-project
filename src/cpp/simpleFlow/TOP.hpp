@@ -4,6 +4,7 @@
 // Include files for data types
 #include "TYPES.hpp"
 #include "CONFIG.hpp"
+
 void HARDWARE_TOP(
 
     // Input

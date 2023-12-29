@@ -3,7 +3,9 @@
 #include <getopt.h>
 #include <fstream>
 
-#include "formatting.h"
+#include "TOP.hpp"
+
+#include "formatting.hpp"
 #include "load.hpp"
 
 using namespace std;
@@ -22,25 +24,25 @@ int main(int argc, char* argv[]) {
     int option;
 
     // Default values for options
-    int helpFlag = 0;
-    int verboseFlag = 0;
-    int simulationSteps = 10;
-
+    int help_flag = 0;
+    int verbose_flag = 0;
+    int simulation_steps = 10;
+    
     // Parse command-line options using getopt
     while ((option = getopt(argc, argv, "hvs:")) != -1) {
         switch (option) {
             case 'v':
-                verboseFlag = 1;
+                verbose_flag = 1;
                 break;
 
             case 'h':
-                helpFlag = 1;
+                help_flag = 1;
                 break;
             
             case 's':
-                simulationSteps = atoi(optarg);
+                simulation_steps = atoi(optarg);
                 break;
-
+            
             default:
                 // Printing error/help message
                 cout << endl; printUsage(argv[0]); cout << endl;
@@ -50,60 +52,45 @@ int main(int argc, char* argv[]) {
     }
 
     // Prints help if necessary
-    if (helpFlag) {
+    if (help_flag) {
         printUsage(argv[0]);
         return 0;
     }
 
-    // cout << "[MAIN] Main was called" << endl;
+    // Initializing file path
+    char image_path[] = "./processed/image_0.bin";
+    char weigths_path[] = "./processed/weights.bin";
 
+    // Creating image from the image path    
+    Image my_image(image_path);
 
-    // // Get the file path:
-    // const char* filePath = "teste.bin";
-    // cout << "[MAIN] File path is: " << filePath << endl;
-    // ifstream source_bin (filePath, ios::binary);
+    // Loading weigths from file
+    Weigths my_weigths(weigths_path);
+
+    // Declaring output variable
+    ac_channel<d_type> data_out;
+
+    // Computing values using the custom hardware
+    HARDWARE_TOP(
+        // Input image values
+        my_image.data,
+
+        // Coefficients
+        my_weigths.weights_conv1,
+        my_weigths.bias_conv1,
+        
+        my_weigths.weights_conv2,
+        my_weigths.bias_conv2,
+        
+        my_weigths.weights_conv3,
+        my_weigths.bias_conv3,
+        
+        my_weigths.weights_dense,
+        my_weigths.bias_dense,
+
+        // Output value
+        data_out
+    );
     
-    // load_image(source_bin);
-
-
-    //  if (!source_bin) {
-    //     std::cerr << "[MAIN] Unable to open the file." << std::endl;
-    //     return 1;
-    // }
-    // else {
-    //     std::cout << "[MAIN] File read successfully." << std::endl;
-    // }
-
-    // // Returns zero in case of no errors    
-    // return 0;
-
-    // Specify the file name
-    const char *file_name = "teste";
-
-    // Open the binary file for reading
-    FILE *file = fopen(file_name, "rb");
-    if (file == NULL) {
-        perror("Error opening file");
-        return 1;
-    }
-
-    // Allocate memory for the array in C
-    long int *label = (long int *)malloc(sizeof(long int));
-    double *data = (double *)malloc(sizeof(double) * 24*24*3);
-
-    // Read the data into the C array
-    fread(label, sizeof(long int), 1, file);
-    fread(data, sizeof(double), 24*24*3, file);
-
-    // Close the file
-    fclose(file);
-
-    cout << *label << endl;
-    cout << data[0] << endl;
-
-    // Free allocated memory
-    free(data);
-
     return 0;
-
 }

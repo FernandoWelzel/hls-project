@@ -21,7 +21,6 @@ void HARDWARE_##NAME( \
             value = data_in[in]; \
             sum += weight*value; \
         } \
-        std::cout << sum << std::endl; \
         data_out[out] = sum; \
     } \
 } \

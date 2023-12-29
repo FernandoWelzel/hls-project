@@ -4,34 +4,36 @@
 // Include needed libraries
 #include <iostream>
 
-#include "TYPES.hpp"  // Importing c_type and d_type
+#include "TYPES.hpp" // Importing c_type and d_type
 #include "CONV2D.hpp" // Importing architecture variables
 #include "CONFIG.hpp"
 
 using namespace std;
 
-void load_image(
-    // Input
-    ifstream& source
-);
+class Image {
+public:
+    long int *label;
+    d_type *data;
 
-void load_weight(
-    // Input
-    ifstream source,
+    Image(char *file_path);
+    ~Image();
+};
 
-    // Output
-    c_type *coeffs_out
-);
+class Weigths {
+public:
+    c_type *weights_conv1;
+    c_type *weights_conv2;
+    c_type *weights_conv3;
+    c_type *weights_dense;
 
-void load_biases(
-    // Input
-    ifstream source,
+    c_type *bias_conv1;
+    c_type *bias_conv2;
+    c_type *bias_conv3;
+    c_type *bias_dense;
 
-    // Output
-    c_type *coeffs_out
-);
-
-void load_all(); // TODO
-
+    Weigths(char *file_path);
+    
+    ~Weigths();
+};
 
 #endif

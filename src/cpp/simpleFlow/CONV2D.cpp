@@ -30,7 +30,6 @@ void HARDWARE_##NAME( \
                                     weight = coeffs_in[coeff_index(c_out, c_in, K_X, K_Y, m, n)]; \
                                     pixel = data_in[feature_index(c_in, m, n, K_X, K_Y)]; \
                                     sum += weight*pixel; \
-                                    std::cout << sum << std::endl; \
                                 } \
                             } \
                         } \
