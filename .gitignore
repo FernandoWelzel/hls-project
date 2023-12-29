@@ -5,6 +5,7 @@
 
 # C++ files
 *build/
+data/processed/
 
 # IDE files
 *.vscode/

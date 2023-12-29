@@ -34,35 +34,10 @@ def write_dataset(new_file_name, file_path, index):
 
     final_image = np.transpose(normalized, (2, 0, 1))
 
-    print(label)
-
     final_label = np.array(label, dtype=int64)
-
-    print(final_label)
 
     with open(new_file_name, "wb") as file:
         final_label.tofile(file)
         final_image.tofile(file)
-    
-    print(final_image)
-
-    # label_byte_stream = bytes(label)
-    # image_byte_stream = bytes(normalized)
-
-    # print(f"Label byte stream {label_byte_stream} {image_byte_stream[0]}")
-    
-    # # print("Label in Byte format: ", label_byte_stream)
-    
-    # output_file_bin = open(new_file_name, 'wb')
-    # # output_file_txt = open(new_file_name + ".txt", 'w')
-
-    # output_file_bin.write(label_byte_stream)    
-    # # output_file_txt.write(label)    
-
-    # output_file_bin.write(image_byte_stream)
-    # # output_file_txt.write(normalized)
-
-    # output_file_bin.close()
-    # # output_file_txt.close()
 
     return 0

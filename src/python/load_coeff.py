@@ -26,9 +26,12 @@ def load_weight(argument: str, coefficient:dict, verbose:bool = False, weightsPa
     else: new_argument = argument.replace("_weights.txt", "")
 
     if(verbose): print("After string modification", new_argument)
+
     # TODO: Get correct argument
     coefficient.update({new_argument : data_update})
+
     if(verbose): print("End of Function")
+
     return coefficient
 
 def load_all(weightsPath : str = "../../data/3x3/"):
@@ -70,16 +73,21 @@ def load_all(weightsPath : str = "../../data/3x3/"):
         Weights.update({name: weight_transposed})     
         Biases.update({name: bias_transposed})
 
-        with open(f"weights_{name}", "wb") as file:
-            weight_transposed.tofile(file)
-
-        with open(f"bias_{name}", "wb") as file:
-            bias_transposed.tofile(file)
-
-    # print(max(Weights["local3"]))
-    # print(max(Biases["local3"]))
-    
     # Reshaping np.arrays for correct size
     return Weights, Biases
-    
 
+# TODO: Fix this horrible code
+def write_weights(new_file_name, weights, biases):
+    with open(new_file_name, "wb") as file:
+        # Writing each convolutional weight in order
+        weights["conv1"].tofile(file)
+        weights["conv2"].tofile(file)
+        weights["conv3"].tofile(file)
+        weights["local3"].tofile(file)
+
+        biases["conv1"].tofile(file)
+        biases["conv2"].tofile(file)
+        biases["conv3"].tofile(file)
+        biases["local3"].tofile(file)
+
+    return 0    

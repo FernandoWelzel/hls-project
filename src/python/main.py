@@ -85,10 +85,5 @@ def main():
         
     print(f"Accuracy: {correct}/{int(args.steps)} = {correct*100/int(args.steps):.2f}%")    
 
-    print("======== TESTING WRITING OF IMAGES ========")
-    write_dataset("teste", file_path, 0)
-
-
-
 if __name__ == "__main__":
     main()
